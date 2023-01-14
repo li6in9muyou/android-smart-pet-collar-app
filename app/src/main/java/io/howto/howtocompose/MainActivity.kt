@@ -13,16 +13,16 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -34,13 +34,62 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             HowToComposeTheme {
+                val nc = rememberNavController()
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    PreviewThreePages()
+                    Column {
+                        TopAppBar(
+                            elevation = 4.dp,
+                            title = { Text("智能宠物项圈APP") },
+                            backgroundColor = MaterialTheme.colors.primarySurface,
+                            navigationIcon = {
+                                IconButton(onClick = { nc.navigateUp() }) {
+                                    Icon(Icons.Filled.ArrowBack, null)
+                                }
+                            }
+                        )
+                        NavHost(
+                            navController = nc,
+                            startDestination = Pages.Home.name,
+                        ) {
+                            composable(Pages.FpvStream.name) { Text(Pages.FpvStream.name) }
+                            composable(Pages.Stats.name) { Text(Pages.Stats.name) }
+                            composable(Pages.Home.name) {
+                                Home(nc)
+                            }
+                        }
+                    }
                 }
             }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun Home(
+    navController: NavController = rememberNavController()
+) {
+    Column(modifier = Modifier.fillMaxSize()) {
+        Button(
+            modifier = Modifier
+                .padding(horizontal = 12.dp)
+                .fillMaxWidth(),
+            onClick = {
+                navController.navigate(Pages.Stats.name)
+            }) {
+            Text("健康检测")
+        }
+        Button(
+            modifier = Modifier
+                .padding(horizontal = 12.dp)
+                .fillMaxWidth(),
+            onClick = {
+                navController.navigate(Pages.FpvStream.name)
+            }) {
+            Text("摄相头")
         }
     }
 }
@@ -103,6 +152,9 @@ enum class Pages {
     Conversation,
     Night,
     Day,
+    Home,
+    Stats,
+    FpvStream
 }
 
 @Preview(
