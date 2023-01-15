@@ -5,10 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -22,6 +19,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import io.howto.howtocompose.ui.theme.HowToComposeTheme
+import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -108,17 +106,39 @@ data class Reading(
 fun Stats(
     navController: NavController = rememberNavController()
 ) {
-    Surface(
-        modifier = Modifier
-            .padding(4.dp)
-            .fillMaxWidth()
-            .border(1.dp, Color.Black)
-            .padding(4.dp)
-    ) {
-        Column {
+    Column {
+        Column(
+            modifier = Modifier
+                .padding(8.dp)
+                .border(2.dp, Color.Black)
+                .padding(8.dp)
+                .fillMaxWidth()
+        ) {
             ReadingMonitor(Reading("体温", 36.3, "摄氏度"))
             ReadingMonitor(Reading("心率", 83, "下每分钟"))
             ReadingMonitor(Reading("血氧", 97.5, "%"))
+        }
+        Column(
+            modifier = Modifier
+                .padding(8.dp)
+                .fillMaxWidth()
+        ) {
+            Box(modifier = Modifier.padding(vertical = 4.dp)) {
+                TimeSeriesChart(
+                    label = "Hb",
+                    readings = (0 until 20).map {
+                        Random.nextDouble(150.0, 250.0)
+                    }
+                )
+            }
+            Box(modifier = Modifier.padding(vertical = 4.dp)) {
+                TimeSeriesChart(
+                    label = "HbO2",
+                    readings = (0 until 20).map {
+                        Random.nextDouble(150.0, 250.0)
+                    }
+                )
+            }
         }
     }
 }
