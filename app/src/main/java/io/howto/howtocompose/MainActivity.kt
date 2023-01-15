@@ -63,7 +63,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun Home(
     navController: NavController = rememberNavController()
