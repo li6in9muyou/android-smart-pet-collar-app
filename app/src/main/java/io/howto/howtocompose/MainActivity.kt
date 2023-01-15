@@ -46,8 +46,12 @@ class MainActivity : ComponentActivity() {
                             navController = nc,
                             startDestination = Pages.Home.name,
                         ) {
-                            composable(Pages.FpvStream.name) { Text(Pages.FpvStream.name) }
-                            composable(Pages.Stats.name) { Text(Pages.Stats.name) }
+                            composable(Pages.FpvStream.name) {
+                                FpvStream()
+                            }
+                            composable(Pages.Stats.name) {
+                                Stats()
+                            }
                             composable(Pages.Home.name) {
                                 Home(nc)
                             }
@@ -84,6 +88,22 @@ fun Home(
             Text("摄相头")
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun Stats(
+    navController: NavController = rememberNavController()
+) {
+    Text(Pages.Stats.name)
+}
+
+@Preview(showBackground = true)
+@Composable
+fun FpvStream(
+    navController: NavController = rememberNavController()
+) {
+    Text(Pages.FpvStream.name)
 }
 
 enum class Pages {
